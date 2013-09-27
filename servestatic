@@ -1,0 +1,15 @@
+#!/bin/bash
+
+WORKERS=4
+for worker in {1..$WORKERS}
+do
+    python $HOME/git/httpserver/server.py "$PWD" "$1" &
+done
+
+trap "echo -e '\nKilling workers.' ; killall static-http-server ; exit" SIGINT SIGTERM
+
+while :
+do
+    sleep 1
+done
+
