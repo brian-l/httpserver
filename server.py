@@ -45,24 +45,24 @@ def response(req):
         return not_found
 
     if method == 'GET':
-            version = version[:-1]
-            start = time.time()
-            try:
-                fname = uri.split('?')[:1][0]
-                if fname.startswith('/'):
-                    fname = fname[1:]
-                extension = fname.split('.')[-1]
-                with open("%s/%s" % (root, fname,), 'r') as resource:
-                    contents = resource.read()
-                print "%s %s %s %d 200" % (method, fname, version, (time.time() - start))
-            except:
-                print "%s %s %s %d 404" % (method, fname, version, (time.time() - start))
-                return '%s 404 Not Found' % version
+        version = version[:-1]
+        start = time.time()
+        try:
+            fname = uri.split('?')[:1][0]
+            if fname.startswith('/'):
+                fname = fname[1:]
+            extension = fname.split('.')[-1]
+            with open("%s/%s" % (root, fname,), 'r') as resource:
+                contents = resource.read()
+            print "%s %s %s %d 200" % (method, fname, version, (time.time() - start))
+        except:
+            print "%s %s %s %d 404" % (method, fname, version, (time.time() - start))
+            return '%s 404 Not Found' % version
 
-            response = '%s 200 OK\nContent-Type: %s\n\n%s' % (
-                version, mimetypes.get(extension), contents
-            )
-            return response
+        response = '%s 200 OK\nContent-Type: %s\n\n%s' % (
+            version, mimetypes.get(extension), contents
+        )
+        return response
     else:
         return not_found
 
