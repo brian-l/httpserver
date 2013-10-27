@@ -39,6 +39,8 @@ def response(req):
     not_found = 'HTTP/1.0 404 Not Found'
     try:
         method, uri, version = message.split(' ')
+        if '..' in uri:
+            raise ValueError
     except:
         return not_found
 
@@ -46,11 +48,15 @@ def response(req):
             version = version[:-1]
             start = time.time()
             try:
-                extension = uri.split('.')[-1]
-                with open("%s/%s" % (root, uri,), 'r') as resource:
+                fname = uri.split('?')[:1][0]
+                if fname.startswith('/'):
+                    fname = fname[1:]
+                extension = fname.split('.')[-1]
+                with open("%s/%s" % (root, fname,), 'r') as resource:
                     contents = resource.read()
-                print "%s %s %s %d" % (method, uri, version, (time.time() - start))
+                print "%s %s %s %d 200" % (method, fname, version, (time.time() - start))
             except:
+                print "%s %s %s %d 404" % (method, fname, version, (time.time() - start))
                 return '%s 404 Not Found' % version
 
             response = '%s 200 OK\nContent-Type: %s\n\n%s' % (
