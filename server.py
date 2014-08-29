@@ -31,6 +31,8 @@ mimetypes = {
     'png': 'image/png',
     'jpg': 'image/jpeg',
     'jpeg': 'image/jpeg',
+    'swf': 'application/x-shockwave-flash',
+    'html': 'text/html',
 }
 
 def response(req):
